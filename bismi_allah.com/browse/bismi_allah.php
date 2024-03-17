@@ -17,7 +17,7 @@ session_start();
 <?php
 if(isset($_GET['account_name']))
 {
-    echo '<p>browsing user ' . $_GET['account_name'] . '</p>';
+    echo '<p>browsing user \'' . $_GET['account_name'] . '\'</p>';
     if(isset($_GET['blog_id']))
     {
         echo '<p>blog id: ' . $_GET['blog_id'] . '</p>';
@@ -26,12 +26,14 @@ if(isset($_GET['account_name']))
     }
     else
     {
-        echo '<p></p>';
+        echo '<p>incha2Allah will have a list of blogs here</p>';
+        echo '<div class="blog_browse"><p>incha2Allah first blog</p></div>';
     }
 }
 else
 {
-    echo '<form method="get" action="bismi_allah.php"><label for="account_name">search user</label><input type="text" name="account_name"></form>';
+    echo '<p>serach a user to start browsing incha2Allah<p>';
+    echo '<form method="get" action="bismi_allah.php"><label for="account_name">search user</label><br><input type="text" name="account_name"></form>';
 }
 ?>
 

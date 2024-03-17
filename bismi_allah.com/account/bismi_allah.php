@@ -13,6 +13,8 @@ session_start();
 </head>
 <body>
     <p>in the name of Allah</p>
+    <?php if(isset($_SESSION['user_name'])){echo '<p> hello ' . $_SESSION['user_name'] . '</p>';}
+          else{echo '<p>want to login?</p><p><a href="login.php">login</a></p><p><a href="register.php">register</a></p>';} ?>
 </body>
 </html>
 
