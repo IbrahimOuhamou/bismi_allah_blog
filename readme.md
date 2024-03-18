@@ -20,7 +20,7 @@ res/                            incha2Allah will have the resources needed
     bismi_allah_user 'bismi_allah'
         PRIVILAGES SELECT, UPDATE, INSERT on bismi_allah_users, bismi_allah_blogs;
 
-## DATABASES
+## DATABASES and TABLES
     CREATE DATABASE bismi_allah_blog;
     CREATE TABLE bismi_allah_users(user_id INT PRIMARY KEY AUTO_INCREMENT,
                                     user_name VARCHAR(16) UNIQUE,
