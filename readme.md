@@ -1,6 +1,5 @@
 in the name of Allah
 
-
 # Routed structure
 public/
  |_ bismi_allah.php             incha2Allah requests will be routed to this file
