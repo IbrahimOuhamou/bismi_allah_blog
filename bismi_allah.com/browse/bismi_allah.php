@@ -15,14 +15,26 @@ session_start();
     <p>in the name of Allah</p>
 
 <?php
+//TODO don't put the users' input directly
 if(isset($_GET['account_name']))
 {
-    echo '<p>browsing user \'' . $_GET['account_name'] . '\'</p>';
-    if(isset($_GET['blog_id']))
+    //establish mysql connection by the wll of Allah
+    mysqli_connect();
+
+    $account_name = htmlspecialchars($_GET['account_name']);
+    $blog_id          = $_GET['blog_id']          ?? null;
+    $blog_id_next     = null;
+    $blog_id_previous = null;
+    echo '<p>browsing user \'' . $account_name . '\'</p>';
+    if(null !== $blog_id)
     {
-        echo '<p>blog id: ' . $_GET['blog_id'] . '</p>';
-        echo '<p>next blog_id: ' . isset($_GET['blog_id_next']) ? $_GET['blog_id_next'] : 'NONE' . '</p>';
-        echo '<p>previous blog_id: ' . isset($_GET['blog_id_previous']) ? $_GET['blog_id_previous'] : 'NONE' . '</p>';
+        echo '<p>blog id: '          . $blog_id                            . '</p>';
+        echo '<p>next blog_id: '     . $blog_id_next     ?? 'NONE' . '</p>';
+        echo '<p>previous blog_id: ' . $blog_id_previous ?? 'NONE' . '</p>';
+        if($_SESSION['user_name'] == $account_name)
+        {
+            echo '<div><a>edit</a></div>';
+        }
     }
     else
     {

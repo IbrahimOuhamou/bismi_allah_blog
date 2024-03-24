@@ -29,7 +29,7 @@ if(!$db_connection && isset($_POST['user_name']) && isset($_POST['user_password'
 {
     echo '<p>internal error connecting to database</p>';
 }
-elseif($db_connection)
+elseif($db_connection && isset($_POST['user_name']) && isset($_POST['user_password']))
 {
     $input_username = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['user_name']));
     $input_password = $_POST['user_password'];

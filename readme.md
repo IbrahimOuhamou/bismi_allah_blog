@@ -12,6 +12,15 @@ browse/                         incha2Allah will be the page to browse blogs of 
 res/                            incha2Allah will have the resources needed
  |_ bismi_allah.css
 
+# Routed structure
+public/
+ |_ bismi_allah.php             incha2Allah requests will be routed to this file
+res/
+ |_ bismi_allah.css             incha2Allah will have the style of the page
+src/
+ |_ bismi_allah.php             incha2Allah will have needed scripts (if any)
+ |_ bismi_allah_logo.png/.jpeg  incha2Allah will have logo of site
+
 # Database Structure
 
 ## USERS
@@ -27,6 +36,7 @@ res/                            incha2Allah will have the resources needed
                                     user_password_salt VARCHAR(12) NOT NULL,
                                     user_password_hash VARCHAR(226) NOT NULL);
     CRAETE TABLE bismi_allah_blogs(blog_id INT PRIMARY KEY AUTO_INCREMENT,
+                                    blog_title VARCHAR(256),
                                     blog_text TEXT,
                                     user_id INT,
                                     blog_next_id INT,
