@@ -15,7 +15,7 @@ header
 
     border-radius: 19px;
 }
-header > a
+header > a, footer > a
 {
     color: white;
     text-decoration: none;
@@ -23,4 +23,43 @@ header > a
     text-align: center;
 }
 
+.blog_title, .users
+{
+    color: black;
+    background-color: white;
+
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+
+    border-radius: 15px;
+}
+.blog_title > a, .users > a
+{
+    color: black;
+
+    text-decoration: none;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.blog_text
+{
+    background-color: white;
+    color: black;
+
+    border-radius: 15px;
+
+    text-align: center;
+}
+.blog_text::first-letter
+{
+    font-size: xx-large;
+}
+
+footer
+{
+    background-color: black;
+    color: white;
+}
 
