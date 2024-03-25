@@ -26,6 +26,14 @@ mysqli_set_charset($db_connection, 'utf8mb4');
 if(0 === strcmp($bismi_allah_request[1], ''))
 {   // '/'
     echo '<h1>requested \'/\'</h1>';
+    echo '
+        <ul>
+            <li><a href="/users">browse users</a></li>
+            <li><a href="/account">browse account</a></li>
+            <li><a href="/account/login">login</a></li>
+            <li><a href="/account/register">register</a></li>
+        </ul>
+        ';
 }
 elseif(0 === strcmp($bismi_allah_request[1], 'blogs'))
 {   //  '/blogs/{blog_id}'
@@ -117,7 +125,7 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
         {
             if(isset($_SESSION['account_name']))
             {
-                echo '<h1>hello ' . $_session['account_name'] . '</h1>';
+                echo '<h1>hello ' . $_SESSION['account_name'] . '</h1>';
             }
             else
             {
@@ -130,21 +138,101 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
             if(isset($_POST['account_name']) && isset($_POST['account_password']))
             {
                 $input_account_name = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['account_name']));
+                $input_account_password = mysqli_real_escape_string($db_connection, $_POST['account_password']);
+                $query = 'SELECT * FROM bismi_allah_users WHERE user_name="' . $input_account_name .'";';
+                $query_result = mysqli_query($db_connection, $query);
+
+                if(0 >= mysqli_num_rows($query_result))
+                {
+                    echo '<p>user_was not found</p>';
+                }
+                else if($row = mysqli_fetch_assoc($query_result))
+                {
+                    if(0 === strcmp(hash('sha256', $input_account_password . $row['user_password_salt']), $row['user_password_hash']))
+                    {
+                        echo '<p>alhamdo li Allah connected user succefully</p>';
+                        $_SESSION['account_name'] = $row['user_name'];
+                        $_SESSION['account_id'] = $row['user_id'];
+                    }
+                    else
+                    {
+                        echo '<p>incorrect password</p>';
+                    }
+                }
             }
             else
             {
                 echo '<form method="post" action="/account/login">
-                    <label for="account_name">account name</label><input type="text" name="account_name" id="account_name"> <br>
-                    <label for="account_password">account password</label><input type="password" name="account_password" id="account_password"> <br>
-                    <button type="submit">login</button>
+                    <table>
+                        <tr><th colspan="2"><h1>login</h1></th></tr>
+                        <tr>
+                            <td><label for="account_name">account name</label></td>
+                            <td><input type="text" name="account_name" id="account_name"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="account_password">account password</label></td>
+                            <td><input type="password" name="account_password" id="account_password"></td>
+                        </tr>
+                        <tr>
+                            <td><button type="reset">clear</button></td>
+                            <td><button type="submit">login</button></td>
+                        </tr>
+                        <tr><td>don\'t have an account?<br><a href="/account/register">register</a></td></tr>
+                    </table>
                     </form>';
             }
         }
-        elseif(0 !== strcmp($bismi_allah_request[2], 'register'))
+        elseif(0 === strcmp($bismi_allah_request[2], 'register'))
         {
+            if(isset($_POST['account_name']) && isset($_POST['account_password']))
+            {
+                $input_account_name = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['account_name']));
+                $input_account_password = mysqli_real_escape_string($db_connection, $_POST['account_password']);
+                $query = 'SELECT * FROM bismi_allah_users WHERE user_name="' . $input_account_name .'";';
+                $query_result = mysqli_query($db_connection, $query);
 
+                if(0 >= mysqli_num_rows($query_result))
+                {
+                    $salt = bin2hex(random_bytes(6));
+                    $query = 'INSERT INTO bismi_allah_users(user_name, user_password_salt, user_password_hash) VALUES ("' . $input_account_name . '", "' . $salt . '", "' . hash('sha256', $input_account_password . $salt) .'");';
+                    if(mysqli_query($db_connection, $query))
+                    {
+                        echo '<p>alhamdo li Allah created user succefully</p>';
+                        echo '<p><a href="/account/login">now you can login</a></p>';
+                    }
+                    else
+                    {
+                        echo '<p>error creating user</p>';
+                    }
+                }
+                else
+                {
+                    echo '<p>account name already exists</p>';
+                }
+            }
+            else
+            {
+                echo '<form method="post" action="/account/register">
+                    <table>
+                        <tr><th colspan="2"><h1>register</h1></th></tr>
+                        <tr>
+                            <td><label for="account_name">account name</label></td>
+                            <td><input type="text" name="account_name" id="account_name"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="account_password">account password</label></td>
+                            <td><input type="password" name="account_password" id="account_password"></td>
+                        </tr>
+                        <tr>
+                            <td><button type="reset">clear</button></td>
+                            <td><button type="submit">login</button></td>
+                        </tr>
+                        <tr><td>already have an account?<br><a href="/account/login">login</a></td></tr>
+                    </table>
+                    </form>';
+            }
         }
-        elseif(0 !== strcmp($bismi_allah_request[2], 'edit'))
+        elseif(0 === strcmp($bismi_allah_request[2], 'edit'))
         {
 
         }

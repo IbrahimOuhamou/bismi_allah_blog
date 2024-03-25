@@ -4,6 +4,8 @@ body
 {
     font-family: sans;
     background-color: grey;
+
+    text-align: center;
 }
 
 header
@@ -62,4 +64,11 @@ footer
     background-color: black;
     color: white;
 }
+
+form
+{
+    display: flex;
+    justify-content: center;
+}
+
 
