@@ -27,8 +27,6 @@ src/
                                     blog_title VARCHAR(256),
                                     blog_text TEXT,
                                     user_id INT,
-                                    blog_next_id INT,
-                                    blog_previous_id INT,
                                     creation_date DATETIME DEFAULT NOW(),
                                     FOREIGN_KEY(user_id) REFERENCES bismi_allah_users(user_id));
 

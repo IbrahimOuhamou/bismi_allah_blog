@@ -42,7 +42,7 @@ elseif(0 === strcmp($bismi_allah_request[1], 'blogs'))
         $blog_id = mysqli_real_escape_string($db_connection ,$bismi_allah_request[2]);
         if(is_numeric($blog_id))
         {
-            $query = 'SELECT blog_title, blog_text, blog_next_id, blog_previous_id, user_id FROM bismi_allah_blogs WHERE blog_id=' . $blog_id . ';';
+            $query = 'SELECT blog_title, blog_text, user_id FROM bismi_allah_blogs WHERE blog_id=' . $blog_id . ';';
             $query_result = mysqli_query($db_connection, $query);
             if(0 >= mysqli_num_rows($query_result))
             {
@@ -60,14 +60,6 @@ elseif(0 === strcmp($bismi_allah_request[1], 'blogs'))
                     echo '<div class="blog_title">' . $row['blog_title'] . '</div>';
                     echo '<p class="blog_text">' . $row['blog_text'] . '</p>';
                     echo '</article>';
-                    if(isset($row['blog_next_id']))
-                    {
-                        echo '<a href="/blogs/' . $row['blog_next_id'] . '">next blog</a> <br>';
-                    }
-                    if(isset($row['blog_previous_id']))
-                    {
-                        echo '<a href="/blogs/' . $row['blog_previous_id'] . '">previous blog</a>';
-                    }
                 }
             }
         }
@@ -118,7 +110,7 @@ elseif(0 === strcmp($bismi_allah_request[1], 'users'))
     }
 }
 elseif(0 === strcmp($bismi_allah_request[1], 'account'))
-{   // '/account/{account_name/"login"/"register"/"edit/{blog_id}"}'
+{   // '/account/{account_name/"login"/"register"/"edit/{blog_id}"/"create_blog"}'
     if(isset($bismi_allah_request[2]))
     {
         if(0 === strcmp($bismi_allah_request[2], ''))
@@ -162,7 +154,7 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
             }
             else
             {
-                echo '<form method="post" action="/account/login">
+                echo '<form method="post" action="/account/login" class="account_form">
                     <table>
                         <tr><th colspan="2"><h1>login</h1></th></tr>
                         <tr>
@@ -212,7 +204,7 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
             }
             else
             {
-                echo '<form method="post" action="/account/register">
+                echo '<form method="post" action="/account/register" class="account_form">
                     <table>
                         <tr><th colspan="2"><h1>register</h1></th></tr>
                         <tr>
@@ -234,7 +226,67 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
         }
         elseif(0 === strcmp($bismi_allah_request[2], 'edit'))
         {
-
+            if(!isset($_SESSION['account_name']))
+            {
+                echo '<p>can\'t edit a blog if you are not logged in<br><a href="/account/login">login?</a></p>';
+            }
+            else if(isset($bismi_allah_request[3]) && 0 !== strcmp($bismi_allah_request[3], ''))
+            {
+                $blog_id = mysqli_real_escape_string($db_connection, htmlspecialchars($bismi_allah_request[3]));
+                $query = 'SELECT * FROM bismi_allah_users WHERE user_id=(SELECT user_id FROM bismi_allah_blogs WHERE blog_id =\'' . $blog_id . '\');';
+                $query_result = mysqli_query($db_connection, $query);
+                if(0 >= mysqli_num_rows($query_result))
+                {
+                    echo '<p><b>Error blog dosn\'t exist</b></p>';
+                }
+                else
+                {
+                    if($row = mysqli_fetch_assoc($query_result))
+                    {
+                        if($row['user_id'] === $_SESSION['account_id'])
+                        {
+                            $blog_title = '';
+                            $blog_text = '';
+                            if(isset($_POST['blog_title']) && isset($_POST['blog_text']))
+                            {
+                                $blog_title = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['blog_title']));
+                                $blog_text = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['blog_text']));
+                                mysqli_query($db_connection, "UPDATE bismi_allah_blogs SET blog_title='$blog_title', blog_text='$blog_text' WHERE blog_id=$blog_id");
+                            }
+                            else
+                            {
+                                if($blog_info = mysqli_fetch_assoc(mysqli_query($db_connection, "SELECT * FROM bismi_allah_blogs WHERE blog_id='$blog_id'")))
+                                {
+                                    $blog_title = htmlspecialchars($blog_info['blog_title']);
+                                    $blog_text = htmlspecialchars($blog_info['blog_text']);
+                                }
+                                echo
+                                '<form action="#" method="post" class="blog_form">
+                                <input type="text" name="blog_title" id="blog_title" class="blog_title" value="' . $blog_title . '"> <br>
+                                <textarea type="text" name="blog_text" id="blog_text" class="blog_text">' . $blog_text . '</textarea> <br>
+                                <button type="submit">EDIT</button>
+                                <button type="reset">reset</button>
+                                </form>
+                                ';
+                            }
+                        }
+                        else
+                        {
+                            echo '<p>sorry! this blog does not belong to this account</p>';
+                        }
+                    }
+                }
+            }
+        }
+        elseif(0 === strcmp($bismi_allah_request[2], 'create_blog'))
+        {
+            //isset($_SESSION['account_id'])
+            if(isset($_POST['blog_title']) && isset($_POST['blog_text']))
+            {
+                $blog_title = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['blog_title']));
+                $blog_text = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['blog_text']));
+                
+            }
         }
     }
 
