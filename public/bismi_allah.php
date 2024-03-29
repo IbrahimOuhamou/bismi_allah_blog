@@ -1,6 +1,6 @@
 <?php
 //in the name of Allah
-session_set_cookie_params(500);
+session_set_cookie_params(60 * 60 * 4);
 session_start();
 $bismi_allah_request = explode('/', htmlspecialchars($_SERVER['REQUEST_URI']));
 
@@ -19,7 +19,7 @@ mysqli_set_charset($db_connection, 'utf8mb4');
     
     <header>
         <a href="/">home</a>
-        <a href="/account">account</a>
+        <a href="/account/">account</a>
     </header>
 
 <?php
@@ -29,7 +29,7 @@ if(0 === strcmp($bismi_allah_request[1], ''))
     echo '
         <ul>
             <li><a href="/users">browse users</a></li>
-            <li><a href="/account">browse account</a></li>
+            <li><a href="/account/">browse account</a></li>
             <li><a href="/account/login">login</a></li>
             <li><a href="/account/register">register</a></li>
         </ul>
@@ -118,6 +118,7 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
             if(isset($_SESSION['account_name']))
             {
                 echo '<h1>hello ' . $_SESSION['account_name'] . '</h1>';
+                echo '<p><a href="/account/create_blog">create blog?</a></p>';
             }
             else
             {
@@ -280,12 +281,37 @@ elseif(0 === strcmp($bismi_allah_request[1], 'account'))
         }
         elseif(0 === strcmp($bismi_allah_request[2], 'create_blog'))
         {
-            //isset($_SESSION['account_id'])
-            if(isset($_POST['blog_title']) && isset($_POST['blog_text']))
+            
+            if(isset($_SESSION['account_id']) && isset($_POST['blog_title']) && isset($_POST['blog_text']))
             {
                 $blog_title = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['blog_title']));
                 $blog_text = mysqli_real_escape_string($db_connection, htmlspecialchars($_POST['blog_text']));
-                
+                try{
+                if(mysqli_query($db_connection, "INSERT INTO bismi_allah_blogs (user_id, blog_title, blog_text) VALUES ('" . $_SESSION['account_id'] . "', '$blog_title', '$blog_text')"))
+                {
+                    echo '<p>alhamdo li Allah blog addes successfuly</p>';
+                }
+                else
+                {
+                    echo '<p>Error while adding blog</p>';
+                }
+                } catch(Exception $e)
+                {
+                    echo '<pre>';
+                    var_dump($e);
+                    echo '</pre>';
+                }
+            }
+            elseif(isset($_SESSION['account_id']))
+            {
+                echo
+                '<form action="#" method="post" class="blog_form">
+                <input type="text" name="blog_title" id="blog_title" class="blog_title" value="' . $blog_title . '"> <br>
+                <textarea type="text" name="blog_text" id="blog_text" class="blog_text">' . $blog_text . '</textarea> <br>
+                <button type="submit">CREATE</button>
+                <button type="reset">reset</button>
+                </form>
+                ';
             }
         }
     }
