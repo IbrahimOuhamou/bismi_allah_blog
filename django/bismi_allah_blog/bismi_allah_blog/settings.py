@@ -75,8 +75,13 @@ WSGI_APPLICATION = 'bismi_allah_blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bismi_allah_blog',
+        'USER': 'bismi_allah',
+        'PASSWORD': 'bismi_allah',
+        'HOST': 'localhost',
     }
 }
 
