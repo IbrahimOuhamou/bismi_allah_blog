@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bismi_allah_blog',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,7 @@ DATABASES = {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bismi_allah_db',
+        'NAME': 'bismi_allah_blog',
         'USER': 'bismi_allah',
         'PASSWORD': 'bismi_allah',
         'HOST': '192.168.122.208',

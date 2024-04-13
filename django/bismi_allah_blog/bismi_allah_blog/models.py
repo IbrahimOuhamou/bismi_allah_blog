@@ -4,14 +4,14 @@
 from django.db import models
 
 class bismi_allah_users(models.Model):
-    name = 
-    password_salt = 
-    password_hash = 
-    email =
+    name = models.CharField(max_length=32)
+    email = models.EmailField(max_length=254)
+    password_salt = models.CharField(max_length=12)
+    password_hash = models.CharField(max_length=226)
 
 class bismi_allah_blogs(models.Model):
-    title = 
-    text = 
-    creation_date = 
-    user_id = 
+    title = models.CharField(max_length=256)
+    text = models.TextField()
+    creation_time = models.DateTimeField(auto_now=True)
+    user_id = models.ForeignKey(bismi_allah_users, on_delete=models.CASCADE)
 
