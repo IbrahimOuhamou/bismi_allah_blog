@@ -1,0 +1,13 @@
+{% extends "bismi_allah.html" %}
+{% block content %}
+{% if bismi_allah_users_list %}
+    <ul>
+        {% for user in bismi_allah_users_list %}
+        <li><a href="/user/{{ user.id }}">{{ user.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>no users available</p>
+    <p>alhamdo li Allah ala kolli 7al</p>
+{% endif %}
+{% endblock %}

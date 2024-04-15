@@ -8,11 +8,15 @@ def bismi_allah(request):
 
 def users(request):
     bismi_allah_users_list = bismi_allah_users.objects.all()
-    output = ", ".join([user.name for user in bismi_allah_users_list])
-    return HttpResponse(output)
+    context = {"bismi_allah_users_list": bismi_allah_users_list }
+    return render(request, "users.html", context)
 
 def user(request, user_id):
-    return HttpResponse("bismi Allah" + "<br>" + str(user_id))
+    try:
+        bismi_allah_user = bismi_allah_users.objects.get(pk=user_id)
+    except bismi_allah_users.DoesNotExist:
+        raise Http404("bismi_allah_user does not exist")
+    return render(request, "user.html", )
 
 def blogs(request):
     return HttpResponse("bismi Allah" + "<br>" + str(blog_id))
