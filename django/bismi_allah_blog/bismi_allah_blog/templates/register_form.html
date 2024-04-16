@@ -1,16 +1,21 @@
 {% extends "bismi_allah.html" %}
 <!--بسم الله الرحمن الرحيم-->
 {% block content %}
-    <form action="{% url 'login' %}" method="post">
+    <form action="{% url 'register' %}" method="post">
     {% csrf_token %}
     <fieldset>
         <legend>REGISTER</legend>
-    </fieldset>
         {% if error_message %} <strong> {{ error_message }} </strong> {% endif %}
     
-        <label for="">
+        <label for="bismi_allah_name"><input type="text" name="bismi_allah_name" placeholder="bismi Allah name">
         <br>
-
+        <label for="bismi_allah_email"><input type="email" name="bismi_allah_email" placeholder="bismi Allah email">
+        <br>
+        <label for="bismi_allah_password"><input type="password" name="bismi_allah_password" placeholder="bismi Allah password">
+        <br>
+        <button type="submit">register</button>
+        <button type="reset">reset</button>
+    </fieldset>
     </form>
 {% endblock %}
 

@@ -33,5 +33,9 @@ def login(request):
 def register(request):
     if 'POST' != request.method or not request.POST:
         return render(request, "register_form.html")
-    return HttpResponse("bismi Allah register")
+    #will by the will of Allah check if there is a user with that account
+    if bismi_allah_users.objects.filter(name=request.POST["bismi_allah_name"]):
+        return HttpResponse("sub7an Allah bismi_allah_name already set")
+    response = "bismi Allah register<br>name: " + request.POST["bismi_allah_name"] + "<br>email: " + request.POST["bismi_allah_email"] + "<br>password: " + len(request.POST["bismi_allah_password"])*'*'
+    return HttpResponse(response)
 
