@@ -25,13 +25,13 @@ def blog(request, blog_id):
     return render(request, "blog.html", {"bismi_allah_blog": bismi_allah_blog, "bismi_allah_user": bismi_allah_blog.user})
 
 def account(request):
-    return HttpResponse("bismi Allah")
+    return HttpResponse("bismi Allah account")
 
 def login(request):
     return HttpResponse("bismi Allah")
 
 def register(request):
     if 'POST' != request.method or not request.POST:
-        render(request, "register_form.html")
-    return HttpResponse("bismi Allah")
+        return render(request, "register_form.html")
+    return HttpResponse("bismi Allah register")
 

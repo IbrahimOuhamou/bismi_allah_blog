@@ -3,6 +3,10 @@
 {% block content %}
     <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
+    <fieldset>
+        <legend>REGISTER</legend>
+    </fieldset>
+    {% if error_message %} <strong> {{ error_message }} </strong> {% endif %}
     </form>
 {% endblock %}
 
