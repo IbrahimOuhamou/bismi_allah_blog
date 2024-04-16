@@ -1,0 +1,8 @@
+{% extends "bismi_allah.html" %}
+<!--بسم الله الرحمن الرحيم-->
+{% block content %}
+    <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    </form>
+{% endblock %}
+

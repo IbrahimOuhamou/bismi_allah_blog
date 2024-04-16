@@ -23,9 +23,9 @@ from . import views
 urlpatterns = [
     path('', views.bismi_allah, name="bsimi_allah"),
     path('users', views.users, name="users"),
-    path('user/<int:user_id>', views.user, name="user"),
+    path('bismi_allah_user/<int:user_id>', views.user, name="user"),
     path('blogs', views.blogs, name="blogs"),
-    path('blog/<int:blog_id>', views.blog, name="blog"),
+    path('bismi_allah_blog/<int:blog_id>', views.blog, name="blog"),
     path('account/', views.account, name="account"),
     path('account/login', views.login, name="login"),
     path('account/register', views.register, name="register"),

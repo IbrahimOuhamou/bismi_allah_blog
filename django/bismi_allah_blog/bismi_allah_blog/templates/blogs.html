@@ -4,7 +4,7 @@
 {% if bismi_allah_blogs_list %}
     <ul>
         {% for bismi_allah_blog in bismi_allah_blogs_list %}
-        <li><a href="/blog/{{ bismi_allah_blog.id }}">{{ bismi_allah_blog.title }}</a></li>
+        <li><a href="{% url 'blog' bismi_allah_blog.id %}">{{ bismi_allah_blog.title }}</a></li>
         {% endfor %}
     </ul>
 {% else %}

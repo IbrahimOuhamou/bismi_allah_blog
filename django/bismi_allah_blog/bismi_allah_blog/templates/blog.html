@@ -3,5 +3,5 @@
 {% block content %}
     <h2>{{ bismi_allah_blog.title }}</h2>
     <p>{{ bismi_allah_blog.text }}</p>
-    <p><a href="/user/{{ bismi_allah_user.id }}"> {{ bismi_allah_user.name }} </a></p>
+    <p><a href="{% url 'user' bismi_allah_user.id %}"> {{ bismi_allah_user.name }} </a></p>
 {% endblock %}

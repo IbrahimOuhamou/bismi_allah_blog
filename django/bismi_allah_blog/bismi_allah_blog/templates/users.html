@@ -3,7 +3,7 @@
 {% if bismi_allah_users_list %}
     <ul>
         {% for user in bismi_allah_users_list %}
-        <li><a href="/user/{{ user.id }}">{{ user.name }}</a></li>
+        <li><a href="{% url 'user' user.id %}">{{ user.name }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
