@@ -1,0 +1,14 @@
+{% extends "bismi_allah.html" %}
+<!-- بسم الله الرحمن الرحيم -->
+{% block content %}
+{% if bismi_allah_blogs_list %}
+    <ul>
+        {% for bismi_allah_blog in bismi_allah_blogs_list %}
+        <li><a href="/blog/{{ bismi_allah_blog.id }}">{{ bismi_allah_blog.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>no blogs available</p>
+    <p>alhamdo li Allah ala kolli 7al</p>
+{% endif %}
+{% endblock %}

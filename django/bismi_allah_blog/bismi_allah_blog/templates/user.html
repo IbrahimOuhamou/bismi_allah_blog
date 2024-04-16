@@ -1,3 +1,7 @@
-{% extends "bismi_allah.html "%}
+{% extends "bismi_allah.html" %}
 <!--بسم الله الرحمن الرحيم-->
-{%%}
+{% block content %}
+<p><b>name:</b> {{ bismi_allah_user.name }}<p>
+<p><b>email:</b> <a href="email:{{ bismi_allah_user.email }}">{{ bismi_allah_user.email }}</a><p>
+{% endblock %}
+

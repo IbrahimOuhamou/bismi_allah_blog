@@ -16,10 +16,11 @@ def user(request, user_id):
         bismi_allah_user = bismi_allah_users.objects.get(pk=user_id)
     except bismi_allah_users.DoesNotExist:
         raise Http404("bismi_allah_user does not exist")
-    return render(request, "user.html", )
+    return render(request, "user.html", {"bismi_allah_user": bismi_allah_user})
 
 def blogs(request):
-    return HttpResponse("bismi Allah" + "<br>" + str(blog_id))
+    bismi_allah_blogs_list = bismi_allah_blogs.objects.all()
+    return render(request, "blogs.html", {"bismi_allah_blogs_list": bismi_allah_blogs_list})
 
 def blog(request, blog_id):
     return HttpResponse("bismi Allah")
