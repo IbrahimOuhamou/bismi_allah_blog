@@ -23,7 +23,9 @@ def blogs(request):
     return render(request, "blogs.html", {"bismi_allah_blogs_list": bismi_allah_blogs_list})
 
 def blog(request, blog_id):
-    return HttpResponse("bismi Allah")
+    bismi_allah_blog = bismi_allah_blogs.objects.get(pk=blog_id)
+    bismi_allah_user = bismi_allah_users.objects.get(pk=bismi_allah_blog.user.id)
+    return render(request, "blog.html", {"bismi_allah_blog": bismi_allah_blog, "bismi_allah_user": bismi_allah_user})
 
 def account(request):
     return HttpResponse("bismi Allah")

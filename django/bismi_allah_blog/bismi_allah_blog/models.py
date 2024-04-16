@@ -16,7 +16,7 @@ class bismi_allah_blogs(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
     creation_time = models.DateTimeField(auto_now=True)
-    user_id = models.ForeignKey(bismi_allah_users, on_delete=models.CASCADE)
+    user = models.ForeignKey(bismi_allah_users, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
