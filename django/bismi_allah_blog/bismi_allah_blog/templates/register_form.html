@@ -5,7 +5,7 @@
     {% csrf_token %}
     <fieldset>
         <legend>REGISTER</legend>
-        {% if error_message %} <strong> {{ error_message }} </strong> {% endif %}
+        {% if error_message %} <strong style="color:red;"> {{ error_message }} </strong> <br> {% endif %}
     
         <label for="bismi_allah_name"><input type="text" name="bismi_allah_name" placeholder="bismi Allah name">
         <br>

@@ -1,6 +1,7 @@
 #بسم الله الرحمن الرحيم
 #la ilaha illa Allah mohammed rassoul Allah
 from django.shortcuts import render, HttpResponse, get_object_or_404
+import secrets
 from .models import bismi_allah_users, bismi_allah_blogs
 
 def bismi_allah(request):
@@ -34,8 +35,11 @@ def register(request):
     if 'POST' != request.method or not request.POST:
         return render(request, "register_form.html")
     #will by the will of Allah check if there is a user with that account
-    if bismi_allah_users.objects.filter(name=request.POST["bismi_allah_name"]):
-        return HttpResponse("sub7an Allah bismi_allah_name already set")
-    response = "bismi Allah register<br>name: " + request.POST["bismi_allah_name"] + "<br>email: " + request.POST["bismi_allah_email"] + "<br>password: " + len(request.POST["bismi_allah_password"])*'*'
+    bismi_allah_user = bismi_allah_users.objects.filter(name=request.POST["bismi_allah_name"])
+    if bismi_allah_user:
+        error_message = "sub7an Allah bismi_allah_name '" + bismi_allah_user[0].name + "' already set"
+        return render(request, "register_form.html", {"error_message": error_message})
+    salt = secrets.token_bytes(6).hex()
+    response = "bismi Allah register<br>name: " + request.POST["bismi_allah_name"] + "<br>email: " + request.POST["bismi_allah_email"] + "<br>password: " + len(request.POST["bismi_allah_password"])*'*' + "<br>salt: " + salt
     return HttpResponse(response)
 
