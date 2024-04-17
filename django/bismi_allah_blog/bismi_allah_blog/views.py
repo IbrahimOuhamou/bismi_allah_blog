@@ -1,7 +1,7 @@
 #بسم الله الرحمن الرحيم
 #la ilaha illa Allah mohammed rassoul Allah
 from django.shortcuts import render, HttpResponse, get_object_or_404
-import secrets
+import secrets, hashlib
 from .models import bismi_allah_users, bismi_allah_blogs
 
 def bismi_allah(request):
@@ -40,6 +40,6 @@ def register(request):
         error_message = "sub7an Allah bismi_allah_name '" + bismi_allah_user[0].name + "' already set"
         return render(request, "register_form.html", {"error_message": error_message})
     salt = secrets.token_bytes(6).hex()
-    response = "bismi Allah register<br>name: " + request.POST["bismi_allah_name"] + "<br>email: " + request.POST["bismi_allah_email"] + "<br>password: " + len(request.POST["bismi_allah_password"])*'*' + "<br>salt: " + salt
+    response = "bismi Allah register<br>name: " + request.POST["bismi_allah_name"] + "<br>email: " + request.POST["bismi_allah_email"] + "<br>password hash: " + hashlib.sha256((request.POST["bismi_allah_password"]+"salt").encode()) + "<br>salt: " + salt
     return HttpResponse(response)
 
