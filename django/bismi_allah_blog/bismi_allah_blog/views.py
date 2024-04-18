@@ -1,11 +1,16 @@
 #بسم الله الرحمن الرحيم
 #la ilaha illa Allah mohammed rassoul Allah
-from django.shortcuts import render, HttpResponse, get_object_or_404
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+
 import secrets, hashlib
+
 from .models import bismi_allah_users, bismi_allah_blogs
 
 def bismi_allah(request):
-    return HttpResponse("bismi Allah")
+    return render(request, "bismi_allah.html")
 
 def users(request):
     bismi_allah_users_list = bismi_allah_users.objects.all()
@@ -29,7 +34,18 @@ def account(request):
     return HttpResponse("bismi Allah account")
 
 def login(request):
-    return HttpResponse("bismi Allah")
+    if 'POST' != request.method or not request.POST:
+        return render(request, "login_form.html")
+
+    bismi_allah_user = bismi_allah_users.objects.filter(name=request.POST["bismi_allah_name"])[0]
+
+    if not bismi_allah_user:
+        return render(request, "login_form.html", {"error_message": "sub7an Allah bismi_allah_name '" + request.POST["bismi_allah_name"] + "' is not set"})
+
+    if bismi_allah_user.password_hash != hashlib.sha256((request.POST["bismi_allah_password"]+bismi_allah_user.password_salt).encode("utf-8")).hexdigest():
+        return render(request, "login_form.html", {"error_message": "sub7an Allah password was incorrect"})
+
+    return HttpResponseRedirect(reverse("bismi_allah"))
 
 def register(request):
     if 'POST' != request.method or not request.POST:
@@ -39,7 +55,9 @@ def register(request):
     if bismi_allah_user:
         error_message = "sub7an Allah bismi_allah_name '" + bismi_allah_user[0].name + "' already set"
         return render(request, "register_form.html", {"error_message": error_message})
+
     salt = secrets.token_bytes(6).hex()
-    response = "bismi Allah register<br>name: " + request.POST["bismi_allah_name"] + "<br>email: " + request.POST["bismi_allah_email"] + "<br>password hash: " + hashlib.sha256((request.POST["bismi_allah_password"]+"salt").encode()) + "<br>salt: " + salt
-    return HttpResponse(response)
+    bismi_allah_user = bismi_allah_users(name=request.POST["bismi_allah_name"], email=request.POST["bismi_allah_email"], password_salt=salt, password_hash=hashlib.sha256((request.POST["bismi_allah_password"]+salt).encode("utf-8")).hexdigest())
+
+    return HttpResponseRedirect(reverse("bismi_allah"))
 
