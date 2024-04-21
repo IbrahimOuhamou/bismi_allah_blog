@@ -1,0 +1,26 @@
+/*بسم الله الرحمن الرحيم
+ *la ilaha illa Allah mohammed rassoul Allah
+ */
+
+body
+{
+    margin: 0;
+}
+
+header
+{
+    background-color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    color: white;
+}
+header a
+{
+    color: white;
+    text-decoration: none;
+
+    margin-left: 10;
+}
+

@@ -4,22 +4,32 @@
 <head>
     <title>in the name of Allah</title>
     <meta charset="UTF-8">
-    <link href="bismi_allah.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static "bismi_allah.css" %}" rel="stylesheet">
 </head>
 <body>
     {% block header %}
     <header>
-        <a href="{% url 'bismi_allah' %}">bismi_allah</a>
-        <a href="{% url 'login' %}">login</a>
-        <a href="{% url 'register' %}">register</a>
-        <a href="{% url 'blogs' %}">blogs</a>
-        <a href="{% url 'users' %}">users</a>
+        <div>
+            <a href="{% url 'bismi_allah' %}">bismi_allah home</a> |
+            <a href="{% url 'login' %}">login</a> |
+            <a href="{% url 'register' %}">register</a>
+        </div>
+        <div>
+        {% if request.session.account_name %}
+            <a href="{% url 'account' %}">account '{{ request.session.account_name }}'</a>
+        {% else %}
+            <a href="{% url 'blogs' %}">blogs</a> |
+            <a href="{% url 'users' %}">users</a>
+        {% endif %}
+        </div>
     </header>
     {% endblock %}
     {% block title %}
         <h1>in the name of Allah</h1>
     {% endblock %}
     {% block content %}
+        alhamdo li Allah wa assalato wa assalamo ala rassouli Allah
     {% endblock %}
 </body>
 </html>
